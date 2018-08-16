@@ -13,7 +13,7 @@ import javafx.scene.text.TextAlignment;
  * 
  * Piece extends StackPane so it can be placed on another pane.
  * 
- * @author jim
+ * @author Supaluk Jaroensuk
  *
  */
 public class Piece extends StackPane {
@@ -23,7 +23,12 @@ public class Piece extends StackPane {
 	private Text text;
 	/** Type type of the piece.  Its public final for efficiency in checking board state. */
 	public final Player type;
-	
+
+	/**
+	 * Initialize type of piece and size of piece.
+	 * @param type is type of piece.
+	 * @param size is size of piece.
+	 */
 	public Piece(Player type, double size) {
 		this.type = type;
 		this.text = new Text(type.text);
@@ -44,7 +49,11 @@ public class Piece extends StackPane {
 		double h = super.getHeight();
 		text.resize(w, h);
 	}
-	
+
+	/**
+	 * Get type of piece, as a string.
+	 * @return type of piece
+	 */
 	@Override
 	public String toString() {
 		return type.text;

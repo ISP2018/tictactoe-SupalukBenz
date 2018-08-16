@@ -13,9 +13,14 @@ import javafx.stage.Stage;
 /**
  * Launch the JavaFX application.
  *
+ * @author Supaluk Jaroensuk
  */
 public class Main extends Application {
 
+	/**
+	 * Launch a standalone application
+	 * @param args is the command line arguments passed to the application
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -42,10 +47,6 @@ public class Main extends Application {
 	        primaryStage.show();
 		} catch (Exception ex) {
 			Logger.getLogger("Main").log(Level.SEVERE, "Exception initializing game: \n"+ex.getMessage(), ex);
-			// Does Logger.log() print the stacktrace?  If so, we don't need this:
-			ex.printStackTrace();
-			
-			return;
 		}
 	}
 

@@ -1,6 +1,5 @@
 package tictactoe;
 
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,22 +11,42 @@ import javafx.scene.layout.Pane;
 /**
  * UI controller for the JavaFX interface to tic-tac-toe game.
  * This class handles user input events.
+ *
+ * @author Supaluk Jaroensuk
  */
 public class GameController {
+
+	/**
+	 * Text on top that showing status.
+	 */
 	@FXML
 	private Label topLabel;
+
+	/**
+	 * Pane of tic-tac-toe game
+	 */
 	@FXML
 	private Pane centerPane;
+
+	/**
+	 * Button reset to new game.
+	 */
 	@FXML
 	private Button newGameButton;
-	
+
+	/**
+	 * TicTacToeGame class
+	 */
 	private TicTacToeGame game;
 	
 
 	public GameController() {
 		// nothing to iniitialize yet.
 	}
-	
+
+	/**
+	 * Initialize tic-tac-toe game
+	 */
 	@FXML
 	public void initialize() {
 		game = new TicTacToeGame(3);
@@ -48,7 +67,10 @@ public class GameController {
 		
 		updateGameStatus();
 	}
-	
+
+	/**
+	 * Update text on top that showing status.
+	 */
 	private void updateGameStatus() {
 		Player winner = game.winner();
 		if (winner != Player.NONE) topLabel.setText("Player "+winner+" wins!");
