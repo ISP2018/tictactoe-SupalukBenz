@@ -25,7 +25,7 @@
         <!-- include all Jars in the lib directory (for JUnit) -->
         <fileset dir="${lib.dir}" includes="*.jar" />
         <!-- always need the build directory on the classpath -->
-        <pathelement location="bin" />
+        <pathelement location="${build.dir}" />
     </path>
 
     <!-- The "deps" target is used on Travis CI to install dependencies. -->
