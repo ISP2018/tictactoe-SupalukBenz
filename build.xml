@@ -46,19 +46,19 @@
     </target>
 
     <target name="clean" description="Delete build products and build directory">
-        <delete dir="${test.src.dir}" />
+        <delete dir="${build.dir}" />
     </target>
 
     <!-- create the build directory for output -->
     <target name="init" description="Create output directories if they don't exist" >
-        <mkdir dir="${test.src.dir}" />
+        <mkdir dir="${build.dir}" />
         <mkdir dir="${test.build.dir}" />
     </target>
 
     <!-- compile the source code -->
     <target name="compile" depends="init, deps" description="Compile source code" >
         <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false" />
-        <copy todir="${test.build.dir}">
+        <copy todir="${build.dir}">
             <fileset dir="${src.dir}">
                 <include name="**/*.fxml" />
             </fileset>
