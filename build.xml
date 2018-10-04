@@ -1,0 +1,103 @@
+<!--
+    Ant build file for sample project.
+	For a list of build tasks enter:  ant -p
+    lib.dir contains JUnit JAR files.
+    To specify your own lib dir use:
+      ant -Dlib.dir=/your/junit/dir test
+ -->
+<project name="tictactoe" default="test" basedir=".">
+    <description> tictactoe project for testing with CI. </description>
+
+    <!-- location of src and output (build) directories. -->
+    <!-- TODO define properties for these. -->
+    <property name="src.dir" location="todo"/>
+    <property name="build.dir" location="todo"/>
+    <property name="dist.dir" location="todo"/>
+    <property name="test.src.dir" location="todo" />
+    <property name="test.build.dir" location="todo" />
+    <!-- lib.dir contains JUnit libraries -->
+    <property name="lib.dir" value="todo" />
+
+    <!-- TODO Replace constants "src", "bin", "bin/test", "test", "lib", "."
+              in the following rules with the properties named above
+     -->
+
+    <path id="test.classpath">
+        <!-- include all Jars in the lib directory (for JUnit) -->
+        <fileset dir="lib" includes="*.jar" />
+        <!-- always need the build directory on the classpath -->
+        <pathelement location="bin" />
+    </path>
+
+    <!-- The "deps" target is used on Travis CI to install dependencies. -->
+    <target name="deps"
+            description="Install JUnit jars. Needed for Travis-CI." >
+        <!-- Install JUnit from Maven central -->
+        <!-- Two different style URLs to download stuff from Maven Central -->
+        <mkdir dir="lib" />
+        <!-- http://central.maven.org/maven2/junit/junit/4.12/junit-4.12.jar -->
+        <get dest="lib/junit-4.12.jar"
+             src="http://search.maven.org/remotecontent?filepath=junit/junit/4.12/junit-4.12.jar"
+             skipexisting="true"
+             verbose="true" />
+        <get dest="lib/hamcrest-core-1.3.jar"
+             src="http://central.maven.org/maven2/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"
+             skipexisting="true"
+             verbose="true" />
+    </target>
+
+    <target name="clean" description="Delete build products and build directory">
+        <delete dir="bin" />
+    </target>
+
+    <!-- create the build directory for output -->
+    <target name="init" description="Create output directories if they don't exist" >
+        <mkdir dir="bin" />
+        <mkdir dir="bin/test" />
+    </target>
+
+    <!-- compile the source code -->
+    <target name="compile" depends="init, deps" description="Compile source code" >
+        <javac srcdir="src" destdir="bin" includeantruntime="false" />
+    </target>
+
+    <!-- compile the test code -->
+    <target name="test-compile" depends="init,compile"
+            description="Compile unit test source code" >
+        <javac srcdir="test" destdir="bin/test" includeantruntime="false" >
+            <classpath refid="test.classpath" />
+        </javac>
+        <copy todir="test">
+            <fileset dir="src">
+                <include name="src/tictactoe/GameUI.fxml" />
+            </fileset>
+        </copy>
+    </target>
+
+    <!-- Test the code using JUnit. -->
+    <target name="test" depends="test-compile" description="Run unit tests" >
+        <junit fork="true" printsummary="on" haltonfailure="false">
+            <classpath>
+                <path refid="test.classpath" />
+                <pathelement location="bin/test" />
+            </classpath>
+            <!-- What classes contain JUnit tests? -->
+            <batchtest>
+                <fileset dir="bin/test" includes="**/*Test.class" />
+            </batchtest>
+        </junit>
+    </target>
+
+
+    <target name="jar" depends="compile"
+            description="Create runnable JAR file of project">
+        <jar destfile="TicTacToe.jar"
+             basedir="base dir containing all the stuff to put in jar file">
+            <manifest>
+                <attribute name="Main-Class"
+                           value="com.acme.checksites.Main"/>
+            </manifest>
+        </jar>
+    </target>
+
+</project>
